@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Version {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  version     String  @unique
+  name        String
+  description String
+  multiple    Boolean @default(false)
+  books       Book[]
+}
+
+enum listBook {
+  GENESIS
+  EXODUS
+  LEVITICUS
+  NUMBERS
+  DEUTORONOMY
+  JOSHUA
+  JUDGES
+  RUTH
+  SAMUEL1
+  SAMUEL2
+  KINGS1
+  KINGS2
+  CHRONICLES1
+  CHRONICLES2
+  EZRA
+  NEHEMIAH
+  ESTHER
+  JOB
+  PSALM
+  PROVERBS
+  ECCLESIASTES
+  SONGOFSOLOMON
+  ISAIAH
+  JEREMIAH
+  LAMENTATIONS
+  EZEKIEL
+  DANIEL
+  HOSEA
+  JOEL
+  AMOS
+  OBADIAH
+  JONAH
+  MICAH
+  NAHUM
+  HABAKKUK
+  ZEPHANIAH
+  HAGGAI
+  ZECHARIAH
+  MALACHI
+  MATTHEW
+  MARK
+  LUKE
+  JOHN
+  ACTS
+  ROMANS
+  CORINTHIANS1
+  CORINTHIANS2
+  GALATIANS
+  EPHESIANS
+  PHILIPPIANS
+  COLOSSAINS
+  THESSALONIANS1
+  THESSALONIANS2
+  TIMOTHY1
+  TIMOTHY2
+  TITUS
+  PHILEMON
+  HEBREWS
+  JAMES
+  PETER1
+  PETER2
+  JOHN1
+  JOHN2
+  JOHN3
+  JUDE
+  REVELATION
+}
+
+model Book {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  version   Version   @relation(fields: [versionId], references: [id])
+  versionId String    @db.ObjectId
+  name      listBook
+  chapter   Chapter[]
+}
+
+model Chapter {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  number Int
+  book   Book    @relation(fields: [bookId], references: [id])
+  bookId String  @db.ObjectId
+  verses Verse[]
+}
+
+model Verse {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  chapter   Chapter @relation(fields: [chapterId], references: [id])
+  chapterId String  @db.ObjectId
+  verse     Int
+  verseEnd  Int?
+  text      String
+}
