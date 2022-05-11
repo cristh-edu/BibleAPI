@@ -18,9 +18,7 @@ export class GetVersionUseCase {
     return bibles;
   }
 
-  async getVersion(
-    version: string
-  ): Promise<GetVersionUseCaseRequest | ErrorVersion> {
+  async getVersion(version: string): Promise<GetVersionUseCaseRequest> {
     if (!version) throw new Error("Version is required.");
     let bible = await this.versionRepository.getVersion(version);
     if (!bible) {
@@ -28,9 +26,4 @@ export class GetVersionUseCase {
     }
     return bible;
   }
-}
-
-interface ErrorVersion {
-  status: number;
-  text: string;
 }

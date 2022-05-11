@@ -17,4 +17,4 @@ routes.get("/", async (req, res) => {
   }
 });
 
-routes.use("/version", versionRoutes);
+routes.use("/", versionRoutes);
