@@ -1,11 +1,11 @@
 import { prisma } from "../prisma";
-import { ListBook } from "../utils/ListBook";
+import { listBook } from "@prisma/client";
 import { ChapterGetData, ChapterRepository } from "./chapter-repository";
 
 export class PrismaChapterRepository implements ChapterRepository {
   async find(
     version: string,
-    book: ListBook,
+    book: listBook,
     chapter: number
   ): Promise<ChapterGetData | null> {
     const result = await prisma.version.findUnique({

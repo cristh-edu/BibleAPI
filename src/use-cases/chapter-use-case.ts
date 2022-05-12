@@ -7,7 +7,7 @@ interface GetChapterUseCaseRequest {
   description: string;
 }
 
-export class GetChapterUseCase {
+export class ChapterUseCase {
   constructor(private chapterRepository: ChapterRepository) {}
 
   async getChapter(

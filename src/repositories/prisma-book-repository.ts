@@ -1,9 +1,9 @@
 import { prisma } from "../prisma";
-import { ListBook } from "../utils/ListBook";
-import { BookGetData, BookRepository } from "./book-repository";
+import { listBook } from "@prisma/client";
+import { BookGetData, BookPostData, BookRepository } from "./book-repository";
 
-export class PrismaVersionsRepository implements BookRepository {
-  async find(version: string, book: ListBook): Promise<BookGetData | null> {
+export class PrismaBookRepository implements BookRepository {
+  async find(version: string, book: listBook): Promise<BookGetData | null> {
     const result = await prisma.version.findUnique({
       select: {
         version: true,
@@ -46,5 +46,18 @@ export class PrismaVersionsRepository implements BookRepository {
     });
     const bible = result;
     return bible;
+  }
+
+  async create({ version, name }: BookPostData) {
+    await prisma.version.update({
+      where: {
+        version,
+      },
+      data: {
+        books: {
+          create: { name },
+        },
+      },
+    });
   }
 }

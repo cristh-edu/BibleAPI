@@ -1,6 +1,0 @@
-export enum ListBook {
-  GENESIS = "GENESIS",
-  EXODUS = "EXODUS",
-  LEVITICUS = "LEVITICUS",
-  NUMBERS = "NUMBERS",
-}

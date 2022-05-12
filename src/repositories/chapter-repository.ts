@@ -1,4 +1,4 @@
-import { ListBook } from "../utils/ListBook";
+import { listBook } from "@prisma/client";
 
 export interface ChapterGetData {
   version: string;
@@ -9,7 +9,7 @@ export interface ChapterGetData {
 export interface ChapterRepository {
   find: (
     version: string,
-    book: ListBook,
+    book: listBook,
     chapter: number
   ) => Promise<ChapterGetData | null>;
 }

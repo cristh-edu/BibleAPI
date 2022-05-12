@@ -7,7 +7,7 @@ interface GetVerseUseCaseRequest {
   description: string;
 }
 
-export class GetVerseUseCase {
+export class VerseUseCase {
   constructor(private verseRepository: VerseRepository) {}
 
   async getVerse(

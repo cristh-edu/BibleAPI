@@ -1,5 +1,5 @@
 import { prisma } from "../prisma";
-import { ListBook } from "../utils/ListBook";
+import { listBook } from "@prisma/client";
 import {
   BibleGetData,
   VersionRepository,
@@ -63,7 +63,7 @@ export class PrismaVersionsRepository implements VersionRepository {
   }
 
   async create({ version, name, description, multiple }: VersionPostData) {
-    const createUser = await prisma.version.create({
+    await prisma.version.create({
       data: {
         version,
         name,

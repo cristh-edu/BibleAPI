@@ -10,7 +10,7 @@ interface VersionUseCaseRequest {
 
 type BiblesUseCaseRequest = Array<VersionUseCaseRequest>;
 
-export class GetVersionUseCase {
+export class VersionUseCase {
   constructor(private versionRepository: VersionRepository) {}
 
   async getVersions(): Promise<BiblesUseCaseRequest> {

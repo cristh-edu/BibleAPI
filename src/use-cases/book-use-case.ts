@@ -1,21 +1,34 @@
+import { listBook } from "@prisma/client";
 import { BookRepository } from "../repositories/book-repository";
 import { LocalError } from "../utils/LocalError";
 
-interface GetBookUseCaseRequest {
+interface BookUseCaseRequest {
   version: string;
-  name: string;
-  description: string;
+  book: string;
 }
 
-export class GetBookUseCase {
+export class BookUseCase {
   constructor(private bookRepository: BookRepository) {}
 
-  async getBook(version: string, book: any): Promise<GetBookUseCaseRequest> {
+  async get({ version, book }: BookUseCaseRequest) {
     if (!version) throw new Error("Version is required.");
-    let bible = await this.bookRepository.find(version, book);
+    if (!book) throw new Error("Name of book is required.");
+    const name: listBook = (<any>listBook)[book];
+    let bible = await this.bookRepository.find(version, name);
     if (!bible) {
       throw new LocalError(404, "Version not found");
     }
     return bible;
+  }
+
+  async post({ version, book }: BookUseCaseRequest) {
+    if (!version) throw new LocalError(400, "Version is required.");
+    if (!book) throw new LocalError(400, "Name is required.");
+    const name: listBook = (<any>listBook)[book];
+
+    await this.bookRepository.create({
+      version,
+      name,
+    });
   }
 }

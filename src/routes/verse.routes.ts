@@ -1,6 +1,6 @@
 import express from "express";
 import { PrismaVersionsRepository } from "../repositories/prisma-version-repository";
-import { GetVerseUseCase } from "../use-cases/verse-use-case";
+import { VerseUseCase } from "../use-cases/verse-use-case";
 import { LocalError } from "../utils/LocalError";
 
 export const verseRoutes = express.Router();
@@ -12,7 +12,7 @@ verseRoutes.get("/:version/:book/:chapter/:verse", async (req, res) => {
 
   try {
     const prismaVersionsRepository = new PrismaVersionsRepository();
-    const getVerseUseCase = new GetVerseUseCase(prismaVersionsRepository);
+    const getVerseUseCase = new VerseUseCase(prismaVersionsRepository);
     const response = await getVerseUseCase.getVerse(
       version,
       book,

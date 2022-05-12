@@ -1,11 +1,11 @@
 import { prisma } from "../prisma";
-import { ListBook } from "../utils/ListBook";
+import { listBook } from "@prisma/client";
 import { VerseGetData, VerseRepository } from "./verse-repository";
 
 export class PrismaVerseRepository implements VerseRepository {
   async find(
     version: string,
-    book: ListBook,
+    book: listBook,
     chapter: number,
     verse: number
   ): Promise<VerseGetData | null> {

@@ -1,4 +1,4 @@
-import { ListBook } from "../utils/ListBook";
+import { listBook } from "@prisma/client";
 
 export type BibleGetData = Array<VersionGetData>;
 
