@@ -4,6 +4,7 @@ import {
   BibleGetData,
   VersionRepository,
   VersionGetData,
+  VersionPostData,
 } from "./version-repository";
 
 export class PrismaVersionsRepository implements VersionRepository {
@@ -59,5 +60,16 @@ export class PrismaVersionsRepository implements VersionRepository {
     });
     const bible = result;
     return bible;
+  }
+
+  async create({ version, name, description, multiple }: VersionPostData) {
+    const createUser = await prisma.version.create({
+      data: {
+        version,
+        name,
+        description,
+        multiple,
+      },
+    });
   }
 }

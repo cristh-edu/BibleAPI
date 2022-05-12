@@ -8,8 +8,15 @@ export interface VersionGetData {
   description: string;
 }
 
+export interface VersionPostData {
+  version: string;
+  name: string;
+  description: string;
+  multiple?: boolean;
+}
+
 export interface VersionRepository {
   findAll: () => Promise<BibleGetData>;
   find: (version: string) => Promise<VersionGetData | null>;
-  // create: (version: string) => void;
+  create: (data: VersionPostData) => void;
 }

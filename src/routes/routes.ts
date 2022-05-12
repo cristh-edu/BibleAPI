@@ -10,8 +10,8 @@ export const routes = express.Router();
 
 routes.get("/", async (req, res) => {
   try {
-    const prismaFeedbacksRepository = new PrismaVersionsRepository();
-    const getBibleUseCase = new GetVersionUseCase(prismaFeedbacksRepository);
+    const prismaVersionsRepository = new PrismaVersionsRepository();
+    const getBibleUseCase = new GetVersionUseCase(prismaVersionsRepository);
     const response = await getBibleUseCase.getVersions();
     return res.status(200).send(response);
   } catch (err) {
