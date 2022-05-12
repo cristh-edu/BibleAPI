@@ -1,6 +1,9 @@
 import express from "express";
 import { PrismaVersionsRepository } from "../repositories/prisma-version-repository";
-import { GetVersionUseCase } from "../use-cases/get-version-use-case";
+import { GetVersionUseCase } from "../use-cases/version-use-case";
+import { bookRoutes } from "./book.routes";
+import { chapterRoutes } from "./chapter.routes";
+import { verseRoutes } from "./verse.routes";
 import { versionRoutes } from "./version.routes";
 
 export const routes = express.Router();
@@ -18,3 +21,6 @@ routes.get("/", async (req, res) => {
 });
 
 routes.use("/", versionRoutes);
+routes.use("/", bookRoutes);
+routes.use("/", chapterRoutes);
+routes.use("/", verseRoutes);

@@ -1,16 +1,18 @@
 import express from "express";
 import { PrismaVersionsRepository } from "../repositories/prisma-version-repository";
-import { GetVersionUseCase } from "../use-cases/version-use-case";
+import { GetChapterUseCase } from "../use-cases/chapter-use-case";
 import { LocalError } from "../utils/LocalError";
 
-export const versionRoutes = express.Router();
+export const chapterRoutes = express.Router();
 
-versionRoutes.get("/:version", async (req, res) => {
-  const version = req.params.version;
+chapterRoutes.get("/:version/:book/:chapter", async (req, res) => {
+  const { version, book } = req.params;
+  const chapter = parseInt(req.params.chapter);
+
   try {
     const prismaVersionsRepository = new PrismaVersionsRepository();
-    const getBibleUseCase = new GetVersionUseCase(prismaVersionsRepository);
-    const response = await getBibleUseCase.getVersion(version);
+    const getChapterUseCase = new GetChapterUseCase(prismaVersionsRepository);
+    const response = await getChapterUseCase.getChapter(version, book, chapter);
     return res.status(200).send(response);
   } catch (e) {
     if (e instanceof LocalError)

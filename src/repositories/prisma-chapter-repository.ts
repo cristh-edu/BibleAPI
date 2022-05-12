@@ -1,25 +1,13 @@
 import { prisma } from "../prisma";
 import { ListBook } from "../utils/ListBook";
-import {
-  BibleGetData,
-  VersionRepository,
-  VersionGetData,
-} from "./version-repository";
+import { ChapterGetData, ChapterRepository } from "./chapter-repository";
 
-export class PrismaVersionsRepository implements VersionRepository {
-  async findAll(): Promise<BibleGetData> {
-    const versions = await prisma.version.findMany({
-      select: {
-        version: true,
-        name: true,
-        description: true,
-      },
-    });
-    const bibles: BibleGetData = versions;
-    return bibles;
-  }
-
-  async find(version: string): Promise<VersionGetData | null> {
+export class PrismaChapterRepository implements ChapterRepository {
+  async find(
+    version: string,
+    book: ListBook,
+    chapter: number
+  ): Promise<ChapterGetData | null> {
     const result = await prisma.version.findUnique({
       select: {
         version: true,
@@ -43,13 +31,13 @@ export class PrismaVersionsRepository implements VersionRepository {
                   },
                 },
               },
-              orderBy: {
-                number: "asc",
+              where: {
+                number: chapter,
               },
             },
           },
-          orderBy: {
-            name: "desc",
+          where: {
+            name: book,
           },
         },
       },

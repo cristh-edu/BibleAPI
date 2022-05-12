@@ -9,18 +9,7 @@ export interface VersionGetData {
 }
 
 export interface VersionRepository {
-  get: () => Promise<BibleGetData>;
-  getVersion: (version: string) => Promise<VersionGetData | null>;
-  getBook: (version: string, book: ListBook) => Promise<VersionGetData | null>;
-  getChapter: (
-    version: string,
-    book: ListBook,
-    chapter: number
-  ) => Promise<VersionGetData | null>;
-  getVerse: (
-    version: string,
-    book: ListBook,
-    chapter: number,
-    verse: number
-  ) => Promise<VersionGetData | null>;
+  findAll: () => Promise<BibleGetData>;
+  find: (version: string) => Promise<VersionGetData | null>;
+  // create: (version: string) => void;
 }
