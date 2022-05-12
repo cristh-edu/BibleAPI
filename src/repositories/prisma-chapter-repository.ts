@@ -1,13 +1,16 @@
 import { prisma } from "../prisma";
-import { listBook } from "@prisma/client";
-import { ChapterGetData, ChapterRepository } from "./chapter-repository";
+import {
+  ChapterRequestData,
+  ChapterRepository,
+  ChapterGetData,
+} from "./chapter-repository";
 
 export class PrismaChapterRepository implements ChapterRepository {
-  async find(
-    version: string,
-    book: listBook,
-    chapter: number
-  ): Promise<ChapterGetData | null> {
+  async find({
+    version,
+    book,
+    chapter,
+  }: ChapterRequestData): Promise<ChapterGetData | null> {
     const result = await prisma.version.findUnique({
       select: {
         version: true,
@@ -47,5 +50,36 @@ export class PrismaChapterRepository implements ChapterRepository {
     });
     const bible = result;
     return bible;
+  }
+
+  async create({ version, book, chapter }: ChapterRequestData) {
+    const result = await prisma.version.findUnique({
+      select: {
+        books: {
+          select: {
+            id: true,
+          },
+          where: {
+            name: book,
+          },
+        },
+      },
+      where: {
+        version,
+      },
+    });
+
+    await prisma.book.update({
+      where: {
+        id: result?.books[0].id,
+      },
+      data: {
+        chapter: {
+          create: {
+            number: chapter,
+          },
+        },
+      },
+    });
   }
 }

@@ -1,5 +1,4 @@
 import { prisma } from "../prisma";
-import { listBook } from "@prisma/client";
 import {
   BibleGetData,
   VersionRepository,
