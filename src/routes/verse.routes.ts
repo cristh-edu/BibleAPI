@@ -32,16 +32,11 @@ verseRoutes.post("/:version/:book/:chapter", async (req, res) => {
   const { version, book, chapter } = req.params;
   const { verse, verseEnd, text } = req.body;
   try {
-    const response = await getVerseUseCase.post(
-      version,
-      book,
-      chapter,
-      verse,
-      verseEnd,
-      text
-    );
+    await getVerseUseCase.post(version, book, chapter, verse, verseEnd, text);
     return res.status(201).send({
-      text: `Capítulo ${chapter} do livro ${book} da versão ${version} criado com sucesso!`,
+      text: `Verse ${verse}${
+        verseEnd ? `-${verseEnd}` : ""
+      } successfully created in ${book} ${chapter} of the bible ${version}!`,
     });
   } catch (e) {
     if (e instanceof LocalError)

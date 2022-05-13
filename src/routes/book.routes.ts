@@ -25,9 +25,9 @@ bookRoutes.post("/:version", async (req, res) => {
   const { name } = req.body;
   const { version } = req.params;
   try {
-    const response = await getBookUseCase.post({ version, book: name });
+    await getBookUseCase.post({ version, book: name });
     return res.status(201).send({
-      text: `Livro da versão ${version} criado com sucesso!`,
+      text: `Book of ${name} successfully created in ${version} bible!`,
     });
   } catch (e) {
     if (e instanceof LocalError)

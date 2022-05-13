@@ -29,7 +29,7 @@ versionRoutes.post("/", async (req, res) => {
       multiple,
     });
     return res.status(201).send({
-      text: "Versão criada com sucesso!",
+      text: `Version ${version} successfully created!`,
     });
   } catch (e) {
     if (e instanceof LocalError)
