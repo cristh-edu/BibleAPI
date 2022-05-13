@@ -28,10 +28,10 @@ export class ChapterUseCase {
     return bible;
   }
 
-  async post(version: string, book: string, chapter: string) {
+  async post(version: string, bookName: string, chapter: string) {
     if (!version) throw new LocalError(400, "Version is required.");
-    if (!book) throw new LocalError(400, "Name is required.");
-    const name: listBook = (<any>listBook)[book];
+    if (!bookName) throw new LocalError(400, "Name is required.");
+    const book: listBook = (<any>listBook)[bookName];
     if (!chapter) throw new LocalError(400, "Chapter is required.");
     const number = parseInt(chapter);
     if ((number && number < 1) || number > 150)
@@ -39,7 +39,7 @@ export class ChapterUseCase {
 
     await this.chapterRepository.create({
       version,
-      book: name,
+      book,
       chapter: number,
     });
   }

@@ -28,7 +28,7 @@ chapterRoutes.post("/:version/:book", async (req, res) => {
   try {
     const response = await getChapterUseCase.post(version, book, chapter);
     return res.status(201).send({
-      text: `Livro da versão ${version} criado com sucesso!`,
+      text: `Capítulo ${chapter} do livro ${book} da versão ${version} criado com sucesso!`,
     });
   } catch (e) {
     if (e instanceof LocalError)
