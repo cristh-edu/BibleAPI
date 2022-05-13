@@ -16,7 +16,7 @@ bookRoutes.get("/:version/:book", async (req, res) => {
     return res.status(200).send(response);
   } catch (e) {
     if (e instanceof LocalError)
-      return res.status(e.status).send({ error: e.text });
+      return res.status(e.status).send({ error: e.message });
     return res.status(500).send(e);
   }
 });
@@ -31,7 +31,7 @@ bookRoutes.post("/:version", async (req, res) => {
     });
   } catch (e) {
     if (e instanceof LocalError)
-      return res.status(e.status).send({ error: e.text });
+      return res.status(e.status).send({ name: e.name, error: e.message });
     return res.status(500).send(e);
   }
 });

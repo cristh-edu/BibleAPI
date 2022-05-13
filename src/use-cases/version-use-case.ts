@@ -17,22 +17,40 @@ export class VersionUseCase {
   async getVersions(): Promise<BiblesUseCaseRequest> {
     const versions = await this.versionRepository.findAll();
     const bibles: BiblesUseCaseRequest = versions;
+    if (!bibles) throw new LocalError(404, "Not Found", "Bibles not found");
     return bibles;
   }
 
   async getVersion(version: string): Promise<VersionUseCaseRequest> {
-    if (!version) throw new Error("Version is required.");
+    if (!version || version === "")
+      throw new LocalError(
+        400,
+        "Invalid Request Params",
+        "Version is required."
+      );
     let bible = await this.versionRepository.find(version);
-    if (!bible) throw new LocalError(404, "Version not found");
+    if (!bible) throw new LocalError(404, "Not Found", "Version not found");
     return bible;
   }
 
   async post(request: VersionUseCaseRequest) {
     const { version, name, description, multiple } = request;
 
-    if (!version) throw new LocalError(400, "Version is required.");
-    if (!name) throw new LocalError(400, "Name is required.");
-    if (!description) throw new LocalError(400, "Description is required.");
+    if (!version) {
+      throw new LocalError(
+        400,
+        "Invalid Request Params",
+        "Version is required."
+      );
+    }
+    if (!name)
+      throw new LocalError(400, "Invalid Request Params", "Name is required.");
+    if (!description)
+      throw new LocalError(
+        400,
+        "Invalid Request Params",
+        "Description is required."
+      );
     try {
       await this.versionRepository.create({
         version,
@@ -43,7 +61,11 @@ export class VersionUseCase {
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
         if (e.code === "P2002")
-          throw new LocalError(400, "Version already exists.");
+          throw new LocalError(
+            400,
+            "Invalid Request Params",
+            "Version already exists."
+          );
       }
     }
   }

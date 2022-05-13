@@ -26,7 +26,7 @@ export class VerseUseCase {
       verse,
     });
     if (!bible) {
-      throw new LocalError(404, "Version not found");
+      throw new LocalError(404, "Not Found", "Version not found");
     }
     return bible;
   }
@@ -39,23 +39,35 @@ export class VerseUseCase {
     verseEndText: string,
     text: string
   ) {
-    if (!version) throw new LocalError(400, "Version is required.");
-    if (!bookName) throw new LocalError(400, "Name is required.");
+    if (!version)
+      throw new LocalError(
+        400,
+        "Invalid Request Params",
+        "Version is required."
+      );
+    if (!bookName)
+      throw new LocalError(400, "Invalid Request Params", "Name is required.");
     const book: listBook = (<any>listBook)[bookName];
 
-    if (!chapterText) throw new LocalError(400, "Chapter is required.");
+    if (!chapterText)
+      throw new LocalError(
+        400,
+        "Invalid Request Params",
+        "Chapter is required."
+      );
     const chapter = parseInt(chapterText);
     if (!chapter || chapter < 1 || chapter > 150)
-      throw new LocalError(400, "Chapter invalid.");
+      throw new LocalError(400, "Invalid Request Params", "Chapter invalid.");
 
-    if (!verseText) throw new LocalError(400, "Verse is required.");
+    if (!verseText)
+      throw new LocalError(400, "Invalid Request Params", "Verse is required.");
     const verse = parseInt(verseText);
     if (!verse || verse < 1 || verse > 176)
-      throw new LocalError(400, "Verse invalid.");
+      throw new LocalError(400, "Invalid Request Params", "Verse invalid.");
     if (verseEndText) {
       const verseEnd = parseInt(verseEndText);
       if (!verseEnd || verseEnd < 1 || verseEnd > 176)
-        throw new LocalError(400, "Verse invalid.");
+        throw new LocalError(400, "Invalid Request Params", "Verse invalid.");
       await this.verseRepository.create({
         version,
         book,
