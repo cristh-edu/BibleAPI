@@ -4,6 +4,9 @@ export interface BookGetData {
   version: string;
   name: string;
   description: string;
+  books: {
+    name: listBook;
+  }[];
 }
 
 export interface BookPostData {
@@ -14,4 +17,5 @@ export interface BookPostData {
 export interface BookRepository {
   find: (version: string, book: listBook) => Promise<BookGetData | null>;
   create: (request: BookPostData) => Promise<void>;
+  bookExists: (request: BookPostData) => Promise<boolean>;
 }

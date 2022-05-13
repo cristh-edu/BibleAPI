@@ -60,4 +60,18 @@ export class PrismaBookRepository implements BookRepository {
       },
     });
   }
+
+  async bookExists({ version, name }: BookPostData): Promise<boolean> {
+    const book = await prisma.version.findFirst({
+      where: { version },
+      select: {
+        books: {
+          where: {
+            name,
+          },
+        },
+      },
+    });
+    return book?.books[0] ? true : false;
+  }
 }

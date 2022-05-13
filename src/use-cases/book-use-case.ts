@@ -15,9 +15,8 @@ export class BookUseCase {
     if (!book) throw new Error("Name of book is required.");
     const name: listBook = (<any>listBook)[book];
     let bible = await this.bookRepository.find(version, name);
-    if (!bible) {
-      throw new LocalError(404, "Version not found");
-    }
+    if (!bible) throw new LocalError(404, "Version not found");
+    else if (!bible.books[0]) throw new LocalError(404, "Book not found");
     return bible;
   }
 
@@ -25,10 +24,11 @@ export class BookUseCase {
     if (!version) throw new LocalError(400, "Version is required.");
     if (!book) throw new LocalError(400, "Name is required.");
     const name: listBook = (<any>listBook)[book];
-
-    await this.bookRepository.create({
-      version,
-      name,
-    });
+    if (!(await this.bookRepository.bookExists({ version, name })))
+      await this.bookRepository.create({
+        version,
+        name,
+      });
+    else throw new LocalError(400, "Book already exists.");
   }
 }
