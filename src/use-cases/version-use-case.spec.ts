@@ -12,6 +12,9 @@ const versionUseCase = new VersionUseCase({
   findAll: findAllVersionSpy,
 });
 
+const prismaVersionsRepository = new PrismaVersionsRepository();
+const versionUseCaseConnect = new VersionUseCase(prismaVersionsRepository);
+
 describe("Create version", () => {
   it("should be able to create a version", async () => {
     await expect(
@@ -54,10 +57,17 @@ describe("Create version", () => {
       })
     ).rejects.not.toThrowError();
   });
-});
 
-const prismaVersionsRepository = new PrismaVersionsRepository();
-const versionUseCaseConnect = new VersionUseCase(prismaVersionsRepository);
+  it("should not be able to create version if already existing", async () => {
+    await expect(
+      versionUseCaseConnect.post({
+        version: "AM",
+        name: "Exemple name",
+        description: "Exemple description",
+      })
+    ).rejects.not.toThrow();
+  });
+});
 
 describe("Get versions connected a database", () => {
   it("should be able to get a versions", async () => {
